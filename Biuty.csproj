@@ -64,6 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="View\ColorGridConverter.cs" />
     <Compile Include="View\DateTimeToDateConverter.cs" />
     <Page Include="View\ClientWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

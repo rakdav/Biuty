@@ -1,23 +1,17 @@
-﻿<Window x:Class="Biuty.MainWindow"
+﻿<Window x:Name="window" x:Class="Biuty.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Biuty"
+        xmlns:my="clr-namespace:Biuty.View"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="Клиенты" Height="450" Width="1000">
     <Window.Resources>
-        <local:DateTimeToDateConverter x:Key="myDateConverter"/>
-        <Style x:Key="BlackAndWhite">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=tag}" Value="м">
-                    <Setter Property="TextBlock.Background"  Value="Pink"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+        <my:DateTimeToDateConverter x:Key="myDateConverter"/>
     </Window.Resources>
-   
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -25,6 +19,15 @@
         </Grid.RowDefinitions>
         <DataGrid  Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding OurClients}"
                   SelectedItem="{Binding SelectedClient}">
+            <!--<DataGrid.Resources>
+                <my:ColorGridConverter x:Key="converter"/>
+                <Style TargetType="DataGridCell">
+                    <Setter 
+                        Property="Background"
+                        Value="{Binding Path=Tags, Converter={StaticResource converter}}"/>
+                </Style>
+            </DataGrid.Resources>-->
+
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding FirstName}" Header="Имя" Width="100"/>
                 <DataGridTextColumn Binding="{Binding Patronomic}" Header="Отчество" Width="100"/>
@@ -35,10 +38,17 @@
                 <DataGridTextColumn Binding="{Binding RegistrationDate, Converter={StaticResource myDateConverter}}" Header="Регистрация" Width="100"/>
                 <DataGridTextColumn Binding="{Binding LastVisit, Converter={StaticResource myDateConverter}}" Header="Последний визит" Width="100"/>
                 <DataGridTextColumn Binding="{Binding Count}" Header="Количество" Width="100"/>
-                <DataGridTextColumn Binding="{Binding Tags}" Header="Таг" Width="100" x:Name="tag"/>
-
-
+                <DataGridTextColumn Binding="{Binding Tags}" Header="Таг" Width="100" />
             </DataGrid.Columns>
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCellsPresenter">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Tags}" Value="м">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
         </DataGrid>
     </Grid>
 </Window>

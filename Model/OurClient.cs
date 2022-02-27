@@ -20,6 +20,7 @@ namespace Biuty.Model
         private DateTime lastVisit;
         private int count;
         private string tags;
+        private string color;
         public string FirstName
         {
             get { return firstName; }
@@ -108,6 +109,16 @@ namespace Biuty.Model
             {
                 tags = value;
                 OnPropertyChanged("Tags");
+            }
+        }
+
+        public string Color
+        {
+            get { return color;}
+            set
+            {
+                color = value;
+                OnPropertyChanged("color");
             }
         }
 

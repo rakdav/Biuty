@@ -4,21 +4,28 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Biuty.View
 {
-    internal class DateTimeToDateConverter : IValueConverter
+    internal class ColorGridConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((DateTime)value).ToString("dd.MM.yyyy");
+            if (value.ToString().Equals("м"))
+            {
+                return Brushes.Pink;
+            }
+            else
+            {
+                return Brushes.Red;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return DependencyProperty.UnsetValue;
+            throw new NotImplementedException();
         }
     }
 }
