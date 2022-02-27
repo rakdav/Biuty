@@ -13,7 +13,21 @@ namespace Biuty.ViewModel
     class ClientViewModel : INotifyPropertyChanged
     {
         private OurClient selectedClient;
+
+        private string data;
         public ObservableCollection<OurClient> OurClients { get; set; }
+        public ObservableCollection<OurClient> ShowClients { get; set; }
+        public ObservableCollection<string> ListData { get; set; }
+
+        public string Data
+        {
+            get { return data; }
+            set
+            {
+                data = value;
+                OnPropertyChanged("SelectedClient");
+            }
+        }
         public OurClient SelectedClient
         {
             get { return selectedClient; }
@@ -24,9 +38,33 @@ namespace Biuty.ViewModel
             }
         }
 
+        private RelayCommand showRecords;
+        public RelayCommand ShowRecords
+        {
+            get
+            {
+                return showRecords ??
+                  (showRecords = new RelayCommand(obj =>
+                  {
+                      if (!data.Equals("Все"))
+                      {
+                          int count = int.Parse(data);
+                          ShowClients.Clear();
+                          for (int i = 0; i < count; i++)
+                              ShowClients.Add(OurClients[i]);
+                      }
+
+                  }));
+            }
+            set
+            {
+                
+            }
+        }
         public ClientViewModel()
         {
             OurClients = new ObservableCollection<OurClient>();
+            ShowClients = new ObservableCollection<OurClient>();
             using (ModelDB db = new ModelDB())
             {
 
@@ -61,7 +99,14 @@ namespace Biuty.ViewModel
                     ourClient.Count = i.Count;
                     ourClient.Tags = getTitle(i.LastName,db);
                     OurClients.Add(ourClient);
+                    ShowClients.Add(ourClient);
                 }
+                
+                ListData = new ObservableCollection<string>();
+                ListData.Add("Все");
+                ListData.Add("10");
+                ListData.Add("50");
+                ListData.Add(OurClients.Count.ToString());
             }
         }
 

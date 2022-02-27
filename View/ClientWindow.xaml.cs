@@ -25,6 +25,7 @@ namespace Biuty
         {
             InitializeComponent();
             DataContext = new ClientViewModel();
+            CountInPage.SelectedIndex = 0;
         }
     }
 }

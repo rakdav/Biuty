@@ -3,11 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Biuty"
         xmlns:my="clr-namespace:Biuty.View"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:viewmodel="clr-namespace:Biuty.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:ClientViewModel}"
         mc:Ignorable="d"
-        Title="Клиенты" Height="450" Width="1000">
+        
+        Title="Клиенты" Height="450" Width="1000" FontSize="20">
     <Window.Resources>
         <my:DateTimeToDateConverter x:Key="myDateConverter"/>
     </Window.Resources>
@@ -17,17 +18,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <DataGrid  Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding OurClients}"
+        <DataGrid  Grid.Row="0" AutoGenerateColumns="False" ItemsSource="{Binding ShowClients}"
                   SelectedItem="{Binding SelectedClient}">
-            <!--<DataGrid.Resources>
-                <my:ColorGridConverter x:Key="converter"/>
-                <Style TargetType="DataGridCell">
-                    <Setter 
-                        Property="Background"
-                        Value="{Binding Path=Tags, Converter={StaticResource converter}}"/>
-                </Style>
-            </DataGrid.Resources>-->
-
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding FirstName}" Header="Имя" Width="100"/>
                 <DataGridTextColumn Binding="{Binding Patronomic}" Header="Отчество" Width="100"/>
@@ -41,14 +33,25 @@
                 <DataGridTextColumn Binding="{Binding Tags}" Header="Таг" Width="100" />
             </DataGrid.Columns>
             <DataGrid.Resources>
-                <Style TargetType="DataGridCellsPresenter">
+                <Style TargetType="DataGridCell">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Tags}" Value="м">
-                            <Setter Property="Foreground" Value="Red"/>
+                        <DataTrigger Binding="{Binding Tags}" Value="ж">
+                            <Setter Property="Background" Value="Pink"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </DataGrid.Resources>
         </DataGrid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label>Количество записей на странице</Label>
+            <ComboBox x:Name="CountInPage" ItemsSource="{Binding ListData}" SelectedItem="{Binding Data}" SelectedIndex="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction
+                            Command="{Binding ShowRecords}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+        </StackPanel>
     </Grid>
 </Window>
